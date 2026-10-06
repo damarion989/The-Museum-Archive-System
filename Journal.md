@@ -1,3 +1,5 @@
 Phase 1: Default == compares memory addresses, so your search key new Artifact("B205","","") would never match the stored object, and contains/get/remove would all fail. For removal, shifting is O(n) writes after the found index, while swap-with-last is a single assignment. This is only valid because the collection is unordered, so no one depends on position.
+
 Phase 2: Each node carries an extra reference (plus object header overhead), so per-item memory is higher. Array slots are contiguous, which gives much better cache locality when scanning. Nodes can be scattered across the heap, causing more cache misses during find.
+
 Phase 3: compareTo defines the class's default "natural" sort order, which is what Collections.sort and sorted structures use. The consistency recommendation is that if compareTo returns 0 for objects that aren't equals (or vice versa), sorted collections like TreeSet and TreeMap will treat them as duplicates while equals-based ones like ArrayList.contains won't, giving inconsistent behavior. Here, both use only id, so they agree.
